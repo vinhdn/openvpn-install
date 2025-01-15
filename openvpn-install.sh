@@ -1156,7 +1156,7 @@ function newClient() {
 	fi
 
 	# Generates the custom client.ovpn
-	cp /etc/openvpn/client-template.txt "$homeDir/$CLIENT.ovpn"
+	cp /etc/openvpn/client-template.txt "$homeDir/$CLIENT-$IP.ovpn"
 	{
 		echo "<ca>"
 		cat "/etc/openvpn/easy-rsa/pki/ca.crt"
@@ -1183,10 +1183,10 @@ function newClient() {
 			echo "</tls-auth>"
 			;;
 		esac
-	} >>"$homeDir/$CLIENT.ovpn"
+	} >>"$homeDir/$CLIENT-$IP.ovpn"
 
 	echo ""
-	echo "The configuration file has been written to $homeDir/$CLIENT.ovpn."
+	echo "The configuration file has been written to $homeDir/$CLIENT-$IP.ovpn."
 	echo "Download the .ovpn file and import it in your OpenVPN client."
 
 	exit 0
@@ -1217,8 +1217,8 @@ function revokeClient() {
 	rm -f /etc/openvpn/crl.pem
 	cp /etc/openvpn/easy-rsa/pki/crl.pem /etc/openvpn/crl.pem
 	chmod 644 /etc/openvpn/crl.pem
-	find /home/ -maxdepth 2 -name "$CLIENT.ovpn" -delete
-	rm -f "/root/$CLIENT.ovpn"
+	find /home/ -maxdepth 2 -name "$CLIENT-$IP.ovpn" -delete
+	rm -f "/root/$CLIENT-$IP.ovpn"
 	sed -i "/^$CLIENT,.*/d" /etc/openvpn/ipp.txt
 	cp /etc/openvpn/easy-rsa/pki/index.txt{,.bk}
 
