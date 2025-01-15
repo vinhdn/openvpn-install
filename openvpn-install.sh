@@ -1101,7 +1101,7 @@ function newClient() {
 	IP=$(ip -4 addr | sed -ne 's|^.* inet \([^/]*\)/.* scope global.*$|\1|p' | head -1)
 
 	until [[ $SERVER =~ ^[a-zA-Z0-9_-]+$ ]]; do
-		read -rp "Admin password: " -e SERVER
+		read -rp "Server url: " -e SERVER
 	done
  
  	until [[ $ADMIN_PASS =~ ^[a-zA-Z0-9_-]+$ ]]; do
