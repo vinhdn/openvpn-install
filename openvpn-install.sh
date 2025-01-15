@@ -1100,6 +1100,22 @@ function newClient() {
  	# Detect public IPv4 address and pre-fill for the user
 	IP=$(ip -4 addr | sed -ne 's|^.* inet \([^/]*\)/.* scope global.*$|\1|p' | head -1)
 
+	until [[ $SERVER =~ ^[a-zA-Z0-9_-]+$ ]]; do
+		read -rp "Admin password: " -e SERVER
+	done
+ 
+ 	until [[ $ADMIN_PASS =~ ^[a-zA-Z0-9_-]+$ ]]; do
+		read -rp "Admin password: " -e ADMIN_PASS
+	done
+
+ 	until [[ $COUNTRY =~ ^[a-zA-Z0-9_-]+$ ]]; do
+		read -rp "Country name: " -e COUNTRY
+	done
+
+ 	until [[ $COUNTRY_CODE =~ ^[a-zA-Z0-9_-]+$ ]]; do
+		read -rp "Country code: " -e COUNTRY_CODE
+	done
+
 	until [[ $CLIENT =~ ^[a-zA-Z0-9_-]+$ ]]; do
 		read -rp "Client name: " -e CLIENT
 	done
@@ -1111,7 +1127,7 @@ function newClient() {
 	echo "   2) Use a password for the client"
 
 	until [[ $PASS =~ ^[1-2]$ ]]; do
-		read -rp "Select an option [1-2]: " -e -i 1 PASS
+		read -rp "Select an option [1-2]: " -e -i 2 PASS
 	done
 
 	CLIENTEXISTS=$(tail -n +2 /etc/openvpn/easy-rsa/pki/index.txt | grep -c -E "/CN=$CLIENT\$")
@@ -1188,19 +1204,19 @@ function newClient() {
 	} >>"$homeDir/$CLIENT-$IP.ovpn"
 
 	echo "
-curl -k -X POST \"https://pianobeauty.vn:6969/upload\" \\
+curl -k -X POST \"$SERVER\" \\
 -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\
 -H \"Content-Type: multipart/form-data\" \\
 -F \"file=@~/$CLIENT-$IP.ovpn\" \\
 -F \"hostname=$CLIENT-$IP\" \\
 -F \"username=admin\" \\
--F \"password=pass\" \\
+-F \"password=$ADMIN_PASS\" \\
 -F \"ip=$IP\" \\
 -F \"ping=50\" \\
 -F \"speed=100\" \\
--F \"country_long=CountryName\" \\
+-F \"country_long=$COUNTRY\" \\
 -F \"pass_prefix=h01a\" \\
--F \"country_short=CountryCode\" \\
+-F \"country_short=$COUNTRY_CODE\" \\
 -F \"num_vpn_sessions=100\"
 " >> "$homeDir/upload.sh"
 
@@ -1210,7 +1226,7 @@ chmod +x $homeDir/upload.sh
 	echo ""
 	echo "The configuration file has been written to $homeDir/$CLIENT-$IP.ovpn."
 	echo "Download the .ovpn file and import it in your OpenVPN client."
-	./$homeDir/upload.sh
+	.$homeDir/upload.sh
 	exit 0
 }
 
