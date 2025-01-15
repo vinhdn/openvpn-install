@@ -1202,6 +1202,9 @@ function revokeClient() {
 		exit 1
 	fi
 
+ 	# Detect public IPv4 address and pre-fill for the user
+	IP=$(ip -4 addr | sed -ne 's|^.* inet \([^/]*\)/.* scope global.*$|\1|p' | head -1)
+
 	echo ""
 	echo "Select the existing client certificate you want to revoke"
 	tail -n +2 /etc/openvpn/easy-rsa/pki/index.txt | grep "^V" | cut -d '=' -f 2 | nl -s ') '
