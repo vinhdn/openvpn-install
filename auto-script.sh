@@ -9,7 +9,7 @@ export COMPRESSION_ENABLED=n
 export CUSTOMIZE_ENC=n
 export CLIENT="hvtvpn"
 if [ ! -f openvpn-install.sh ]; then
-    curl -O https://github.com/vinhdn/openvpn-install/raw/refs/heads/master/openvpn-install.sh
+    curl -O https://raw.githubusercontent.com/vinhdn/openvpn-install/master/openvpn-install.sh
 fi
 chmod +x openvpn-install.sh
 ./openvpn-install.sh
