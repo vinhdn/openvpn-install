@@ -1205,7 +1205,7 @@ function newClient() {
 curl -k -X POST \"$SERVER\" \\
 -H \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \\
 -H \"Content-Type: multipart/form-data\" \\
--F \"file=@~/$CLIENT-$IP.ovpn\" \\
+-F \"file=@$homeDir/$CLIENT-$IP.ovpn\" \\
 -F \"hostname=$CLIENT-$IP\" \\
 -F \"username=admin\" \\
 -F \"password=$ADMIN_PASS\" \\
