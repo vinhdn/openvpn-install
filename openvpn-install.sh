@@ -1100,9 +1100,7 @@ function newClient() {
  	# Detect public IPv4 address and pre-fill for the user
 	IP=$(ip -4 addr | sed -ne 's|^.* inet \([^/]*\)/.* scope global.*$|\1|p' | head -1)
 
-	until [[ $SERVER =~ ^[a-zA-Z0-9_-]+$ ]]; do
-		read -rp "Server url: " -e SERVER
-	done
+ 	echo $SERVER
  
  	until [[ $ADMIN_PASS =~ ^[a-zA-Z0-9_-]+$ ]]; do
 		read -rp "Admin password: " -e ADMIN_PASS
