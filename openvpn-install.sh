@@ -1213,7 +1213,7 @@ curl -k -X POST \"$SERVER\" \\
 -F \"ping=50\" \\
 -F \"speed=100\" \\
 -F \"country_long=$COUNTRY\" \\
--F \"pass_prefix=h01a\" \\
+-F \"pass_prefix=h01abc\" \\
 -F \"country_short=$COUNTRY_CODE\" \\
 -F \"num_vpn_sessions=100\"
 " >> "$homeDir/upload.sh"
