@@ -1110,7 +1110,7 @@ function newClient() {
 		read -rp "Country name: " -e COUNTRY
 	done
 
- 	until [[ $COUNTRY_CODE =~ ^[a-zA-Z0-9_-]+$ ]]; do
+ 	until [[ ! -z "$COUNTRY" ]]; do
 		read -rp "Country code: " -e COUNTRY_CODE
 	done
 
