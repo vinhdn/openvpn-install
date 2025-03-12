@@ -1106,11 +1106,11 @@ function newClient() {
 		read -rp "Admin password: " -e ADMIN_PASS
 	done
 
- 	until [[ $COUNTRY =~ ^[a-zA-Z0-9_-]+$ ]]; do
+ 	until [[ ! -z "$COUNTRY" ]]; do
 		read -rp "Country name: " -e COUNTRY
 	done
 
- 	until [[ ! -z "$COUNTRY" ]]; do
+ 	until [[ $COUNTRY_CODE =~ ^[a-zA-Z0-9_-]+$ ]]; do
 		read -rp "Country code: " -e COUNTRY_CODE
 	done
 
